@@ -38,12 +38,10 @@ If you want to contribute to the project, you need to setup your Python environm
 
 ## SynthesiaKontrol
 
-- Install Python's module:
+- Install Python dependencies:
 
 ```
-pip install hidapi
-pip install mido
-pip install python-rtmidi
+pip install -r requirements.txt
 ```
 
 - Run the program: 

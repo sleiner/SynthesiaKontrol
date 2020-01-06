@@ -4,29 +4,25 @@
 # simple color scheme on 0x81
 
 import hid
-from msvcrt import getch
+import time
 
 device=hid.device()
 # 0x17cc: Native Instruments. 0x1620: KK S61 MK2
 device.open(0x17cc, 0x1620)
 device.write([0xa0])
+device.set_nonblocking(False)
+
+num_keys = 61
+
+def set_color(c):
+    device.write([0x81] + ([c] * num_keys))
 
 color = 0
 while True:
-    key = ord(getch())
-    if key == 27: #ESC
-        break
-    elif key == 224: #Special keys (arrows, f keys, ins, del, etc.)
-        key = ord(getch())
-        if key == 80: #Down arrow
-            if color > 0: 
-                color -= 1
-        elif key == 72: #Up arrow
-            if color < 254:
-                color += 1
-
-    print("color: ", hex(color))
-    device.write([0x81,color,color,color,color,color,color,color])
+    for color in range(0x4, 0x1f):
+        time.sleep(0.1)
+        print("color: ", hex(color))
+        set_color(color)    
 
 #           Low, Medium, High, Saturated 
 # RED:      0x04, 0x05, 0x06, 0x07
